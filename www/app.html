@@ -1,0 +1,35 @@
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <meta name="format-detection" content="telephone=no" />
+        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
+        <link rel="stylesheet" type="text/css" href="css/index.css" />
+        <title>Manager</title>
+    </head>
+    <body>
+        <div class="app">
+            <h1>Lähikauppa MC Manager</h1>
+        </div>
+   
+        
+        <script type="text/javascript" src="cordova-2.5.0.js"></script>
+        <script type="text/javascript" src="js/index.js"></script>
+        <script type="text/javascript" src="js/avansera.js"></script>
+        <script type="text/javascript" src="js/barcodescanner.js"></script>
+        
+        <div class="ui_panel">
+            <div class="avsscan">
+                <div>
+                    <button onclick="barcode_scan()" class="avsbutton">SCAN</button>
+                </div>
+            </div>
+              <form name="avs_micro1" id="avs_micro1" action="app.html" method="post">
+                <input type="hidden" name="avs_ean" value="">
+                <input type="hidden" name="avs_ts" value="">
+              </form>
+                
+                
+            </form>
+        </div>
+    </body>
+</html>
