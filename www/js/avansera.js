@@ -217,38 +217,35 @@ setTimeout(function() {
               console.log('data loaded ' + JSON.stringify(data));
               $('.ean_meta').html('EAN: '+result.text +'<br>Tuote: '+ data.name +'<br>Hinta: '+data.price+' €');
               $('#avs_price').val(data.price);
+              $.mobile.loading( 'hide', "");
+              if (data.name===null){
+              $.mobile.loading( 'show', {
+                               text: 'Viivakoodia ei löytynyt',
+                               textVisible: true,
+                               theme: 'a',
+                               textonly: true,
+                               html: ""
+                               });
+
+              setInterval(function(){
+                          $.mobile.loading( 'hide', "");
+                          },2000);
+              }
+              else {
+              $.mobile.loading( 'hide', "");
+              window.location.hash='avansera_app';
+              set_timestamp();
+              }
               
-              
-              },
+                            },
               error : function(jqXHR, textStatus, errorThrown) {
               console.log('error loading data :' + errorThrown);
               }
               });
 
-      if (data.name==null){
-       $.mobile.loading( 'show', {
-                        text: 'Viivakoodia ei löytynyt',
-                        textVisible: true,
-                        theme: 'z',
-                        textonly: textonly,
-                        html: ""
-                        });
-       
-       setInterval(function(){
-                   $.mobile.loading( 'hide', "");
-                   },2000);
-       }
-       else {
-            $.mobile.loading( 'hide', "");
-            window.location.hash='avansera_app';
-            set_timestamp();
-            }
-       } }
 
-        function(error){
-          document.getElementById('avsEA').innerHTML="error" + error
-          }
-        );
+       } }   );
+     
     }
 
 

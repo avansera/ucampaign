@@ -90,9 +90,9 @@
         <div class="ui-block-a">
         </div></div>
     <div class="ui-grid-b">
-        <div class="ui-block-a"><a href="#app_res" onclick="avs_dicnt_add()"><img src="img/plus.png" class="plusimage"></a></div>
-        <div class="ui-block-b"><a href="#app_res" onclick="avs_price_add()"><img src="img/plus.png" class="plusimage"></a></div>
-        <div class="ui-block-c"><a href="#app_res" onclick="avs_pcsam_add()"><img src="img/plus.png" class="plusimage"></a></div>
+        <div class="ui-block-a"><a href="#app_res" onclick="avs_dicnt_add()"><img src="img/cplus.png" class="plusimage"></a></div>
+        <div class="ui-block-b"><a href="#app_res" onclick="avs_price_add()"><img src="img/cplus.png" class="plusimage"></a></div>
+        <div class="ui-block-c"><a href="#app_res" onclick="avs_pcsam_add()"><img src="img/cplus.png" class="plusimage"></a></div>
         <div class="ui-block-a"><input type="number" data-inline="true" id="avs_discount" value=30>%
             <!-- <select name="select-choice-percent" id="select-choice-percent" data-mini="true" data-iconpos="noicon">
                 <option value="5">5 %</option>
@@ -122,16 +122,26 @@
         </div>
         <div class="ui-block-b"><input type="number" data-inline="true" id="avs_price" value=2.99>€</div>
         <div class="ui-block-c"><input type="number" data-inline="true" id="avs_amount" value=500>kpl</div>
-        <div class="ui-block-a"><a href="#app_res" onclick="avs_dicnt_sub()"><img src="img/minus.png" class="minusimage"></a></div>
-        <div class="ui-block-b"><a href="#app_res" onclick="avs_price_sub()"><img src="img/minus.png" class="minusimage"></a></div>
-        <div class="ui-block-c"><a href="#app_res" onclick="avs_pcsam_sub()"><img src="img/minus.png" class="minusimage"></a></div>
+        <div class="ui-block-a"><a href="#app_res" onclick="avs_dicnt_sub()"><img src="img/cminus.png" class="minusimage"></a></div>
+        <div class="ui-block-b"><a href="#app_res" onclick="avs_price_sub()"><img src="img/cminus.png" class="minusimage"></a></div>
+        <div class="ui-block-c"><a href="#app_res" onclick="avs_pcsam_sub()"><img src="img/cminus.png" class="minusimage"></a></div>
     </div>
         <div class="ui-grid-a">
         <div class="ui-block-a">Alkaa:</div>
         <div class="ui-block-b">Päättyy:</div>
         <div class="ui-block-a"><input type="date" id="theDate" /></div>
         <div class="ui-block-b"><input type="date" id="theDate" /></div>
+        
     </div>
+    <div class="ui-grid-b">
+        <div class="ui-block-a"></div>
+        <div class="ui-block-b"><a href="#app_res" onclick="avs_price_sub()"><img src="img/cyes.png" class="minusimage"></a>
+                                <a href="#app_res" onclick="avs_price_sub()"><img  src="img/cno.png" class="minusimage"></a>
+                                </div>
+        <div class="ui-block-c"></div>
+
+    </div>
+    
     <!--
     <div data-role="fieldcontain">
         <fieldset data-role="controlgroup" data-type="horizontal"> >
