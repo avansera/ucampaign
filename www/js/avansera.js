@@ -248,6 +248,52 @@ setTimeout(function() {
      
     }
 
+// Campaign submit
+
+function avs_campaignsubmit(){
+    
+    $.mobile.loading( 'show', {
+                     text: '',
+                     textVisible: false,
+                     theme: 'default',
+                     html: ""
+                     });
+    var furl='http://appavanseracom.avansera.epte.fi/submit.php?ean=' + results.text + '&discount='+ $('#avs_discount').val()+ '&price=' +$('#avs_price').val() + '&amount' + $('#avs_amount').val() + '&start_date=' + $('#avs_startdate').val() + '&end_date=' + $('#avs_enddate').val() + '&shop=1638';
+    console.log('postdata prepared ' + furl;
+
+    $.ajax({
+           url : furl,
+           type : "get",
+           dataType : "json",
+           timeout: 5000,
+           success : function(data, textStatus, jqXHR) {
+           console.log('data loaded ' + JSON.stringify(data));
+           $.mobile.loading( 'hide', "");
+           if (data.name===null){
+           $.mobile.loading( 'show', {
+                            text: 'Hintatietojen päivitys\n epäonnistui!',
+                            textVisible: true,
+                            theme: 'a',
+                            textonly: true,
+                            html: ""
+                            });
+           
+           setInterval(function(){
+                       $.mobile.loading( 'hide', "");
+                       },2000);
+           }
+           else {
+           $.mobile.loading( 'hide', "");
+           }
+           },
+           error : function(jqXHR, textStatus, errorThrown) {
+           console.log('error loading data :' + errorThrown);
+           }
+           });
+    
+}
+
+
 
 // Success Function?
 
