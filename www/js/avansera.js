@@ -232,8 +232,9 @@ setTimeout(function() {
                                html: ""
                                }); */
 
-              setInterval(function(){
+              setTimeout(function(){
                           $('.avs_dialog_noproduct').dialog('close');
+                          window.location.hash='';
                           //$.mobile.loading( 'hide', "");
                           },3000);
               }
@@ -320,9 +321,9 @@ function avs_campaignsubmit(){
                             html: ""
                             });
            
-           setInterval(function(){
+           setTimeout(function(){
                        $.mobile.loading( 'hide', "");
-                       },4000);
+                       },3000);
            }
            else {
            $.mobile.loading( 'hide', "");
