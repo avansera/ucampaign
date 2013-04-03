@@ -1,3 +1,5 @@
+/*jslint browser: true, bitwise: true,continue: true, debug: true, eqeq: true, es5: true, evil: true, newcap: true, plusplus: true, sloppy: true, stupid: true, sub: true, vars: false, white: true maxerr: 1000 */
+
 /** ********************************************************************
  * Avansera Bar Code Scanner, AppGyver Project, Phone gap project
  *
@@ -77,7 +79,7 @@ function avs_price_sub(){
 
 function avs_pcsam_add(){
   var value = ((document.getElementById('avs_amount').value/1)+50);
-  var n=value.toFixed(2);
+  var n=value.toFixed(0);
   console.log('avs_amount_add()  ###KRISU### :' + n);
   $('#avs_amount').val(n);
 }
@@ -85,7 +87,7 @@ function avs_pcsam_add(){
 function avs_pcsam_sub(){
   var value = document.getElementById('avs_amount').value-50;
   if (value < 0) {value = 0;}
-  var n=value.toFixed(2);
+  var n=value.toFixed(0);
   console.log('avs_amount_sub() ###KRISU### :' + n);
   document.getElementById('avs_amount').value=n;
 }
@@ -217,29 +219,52 @@ setTimeout(function() {
               console.log('data loaded ' + JSON.stringify(data));
               $('.ean_meta').html('EAN: '+result.text +'<br>Tuote: '+ data.name +'<br>Hinta: '+data.price+' €');
               $('#avs_price').val(data.price);
+              $('#avs_info_ean').text(result.text);
+              $('#avs_info_ean_2').text(result.text);
               $.mobile.loading( 'hide', "");
-              if (data.name===null){
-              $.mobile.loading( 'show', {
-                               text: 'Viivakoodia ei löytynyt',
+              if (data.status=='NO PRODUCTS'){
+              $('#avs_info_noproduct').click();
+              /*  $.mobile.loading( 'show', {
+                               text: 'Tuotetta ei löytynyt',
                                textVisible: true,
                                theme: 'a',
                                textonly: true,
                                html: ""
-                               });
+                               }); */
 
               setInterval(function(){
-                          $.mobile.loading( 'hide', "");
-                          },2000);
+                          $('.avs_dialog_noproduct').dialog('close');
+                          //$.mobile.loading( 'hide', "");
+                          },3000);
+              }
+              else if (data.status=='NO PRICE') {
+              $.mobile.loading( 'hide', "");
+              console.log('NO PRICE ###KRISU### :' + data.status);
+              //$('#avs_dialog').dialog({ position: [50,50] });
+              //$('#avs_dialog').dialog({ autoOpen: true});
+              /* $("#dialog-form").dialog({
+               autoOpen: false,
+               width: dialogWidth,
+               position: [($(window).width() / 2) - (dialogWidth / 2), 150],
+               modal: true,
+               resizable: false,
+               closeOnEscape: false
+               });*/
+              
+              $('#avs_info').click();
+              set_timestamp();
               }
               else {
               $.mobile.loading( 'hide', "");
               window.location.hash='avansera_app';
               set_timestamp();
+              
               }
               
                             },
               error : function(jqXHR, textStatus, errorThrown) {
               console.log('error loading data :' + errorThrown);
+              $.mobile.loading( 'hide', "");
               }
               });
 
@@ -247,8 +272,16 @@ setTimeout(function() {
        } }   );
      
     }
+function avs_closedialog(){
+    window.location.hash='avansera_app';
+    $('.avs_dialog').dialog('close');
+}
 
 // Campaign submit
+
+function avs_cancelsubmit(){
+    window.location.hash='';
+}
 
 function avs_campaignsubmit(){
     
@@ -258,8 +291,17 @@ function avs_campaignsubmit(){
                      theme: 'default',
                      html: ""
                      });
-    var furl='http://appavanseracom.avansera.epte.fi/submit.php?ean=' + results.text + '&discount='+ $('#avs_discount').val()+ '&price=' +$('#avs_price').val() + '&amount' + $('#avs_amount').val() + '&start_date=' + $('#avs_startdate').val() + '&end_date=' + $('#avs_enddate').val() + '&shop=1638';
-    console.log('postdata prepared ' + furl;
+    console.log('postdata preparing + furl');
+    // startdate $('#avs_enddate').val()
+    /* var n = new Date();
+    var date=n.toISOString();
+    document.getElementsByName('avs_ts')[0].value=date;
+    document.getElementById('avsTS').innerHTML=date;
+    */
+    var avs_enddate = new Date(document.getElementById('avs_enddate').value).toISOString();
+    var avs_startdate = new Date(document.getElementById('avs_startdate').value).toISOString();
+    var furl='http://appavanseracom.avansera.epte.fi/submit.php?ean=' + $('#avs_eancode').text() + '&discount='+ $('#avs_discount').val() + '&price=' +$('#avs_price').val() + '&amount=' + $('#avs_amount').val() + '&start_date=' + avs_startdate + '&end_date=' + avs_enddate + '&shop=1638';
+    console.log('postdata prepared ' + furl);
 
     $.ajax({
            url : furl,
@@ -269,7 +311,7 @@ function avs_campaignsubmit(){
            success : function(data, textStatus, jqXHR) {
            console.log('data loaded ' + JSON.stringify(data));
            $.mobile.loading( 'hide', "");
-           if (data.name===null){
+           if (data.status!='OK'){
            $.mobile.loading( 'show', {
                             text: 'Hintatietojen päivitys\n epäonnistui!',
                             textVisible: true,
@@ -280,7 +322,7 @@ function avs_campaignsubmit(){
            
            setInterval(function(){
                        $.mobile.loading( 'hide', "");
-                       },2000);
+                       },4000);
            }
            else {
            $.mobile.loading( 'hide', "");
@@ -288,6 +330,7 @@ function avs_campaignsubmit(){
            },
            error : function(jqXHR, textStatus, errorThrown) {
            console.log('error loading data :' + errorThrown);
+           $.mobile.loading( 'hide', "");
            }
            });
     

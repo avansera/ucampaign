@@ -31,16 +31,15 @@ body {
 
 
 .ui-page, .ui-mobile-viewport {
-	background: url('/img/mcm_bg_tpl.png');
-	background-color:#E4E4E4;
-    background-image:linear-gradient(top, #00838F 0%, #00838F 51%);
-    background-image:-webkit-linear-gradient(top, #00838F 0%, #00838F 51%);
-    background-image:-ms-linear-gradient(top, #00838F 0%, #00838F 51%);
+	background-color:#00838F;
+    background-image:linear-gradient(top, #50B3BF 0%, #00838F 51%);
+    background-image:-webkit-linear-gradient(top, #50B3BF 0%, #00838F 51%);
+    background-image:-ms-linear-gradient(top, #50B3BF 0%, #00838F 51%);
     background-image:-webkit-gradient(
         linear,
         left top,
         left bottom,
-        color-stop(0, #40A3AF),
+        color-stop(0, #50B3BF),
         color-stop(0.51, #00838F)
     );
 }
@@ -54,8 +53,14 @@ body {
 .ui-page {
     background: transparent;
 }
-.ui-content{
-    background: transparent;
+#avs_dialog{
+    /* background: transparent; */
+    margin-top: 100px;
+}
+
+.avs_center{
+    /* background: transparent; */
+    margin-top: 100px;
 }
 
 .ui-grid-a {
