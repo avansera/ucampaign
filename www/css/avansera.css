@@ -55,12 +55,12 @@ body {
 }
 #avs_dialog{
     /* background: transparent; */
-    margin-top: 100px;
+    margin-top: auto;
 }
 
 .avs_center{
     /* background: transparent; */
-    margin-top: 100px;
+    margin-top: auto;
 }
 
 .ui-grid-a {

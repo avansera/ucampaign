@@ -1,4 +1,4 @@
-<!DOCTYPE html> 
+<!DOCTYPE html>
 <html> 
 	<head> 
 	<meta charset="utf-8" /> 
@@ -7,15 +7,14 @@
 	<meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="format-detection" content="telephone=no">
     
-	<link href="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.css" rel="stylesheet" />
+	<link href="css/jquery.mobile-1.2.0.min.css" rel="stylesheet" />
     <link href="css/avansera.css" rel="stylesheet" />
-	<!-- <link href="ios_inspired/styles.css" rel="stylesheet" /> -->
     <script type="text/javascript" src="cordova-2.5.0.js"></script>
     <script type="text/javascript" src="js/index.js"></script>
     <script type="text/javascript" src="js/avansera.js"></script>
     <script type="text/javascript" src="js/barcodescanner.js"></script>
     <script type="text/javascript" src="js/picker.js"></script>
-    <script src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
+    <script type="text/javascript" src="js/jquery-1.7.1.min.js"></script>
 	<script>
 		// all dialog buttons should close their parent dialog
 		$(".ui-dialog button").live("click", function() {		
@@ -42,7 +41,12 @@
 	</style>
 
 </head> 
-<body> 
+<body>
+    
+    
+    <!-- ########################################### -->
+    <!--           Frontpage                         -->
+    <!-- ########################################### -->
  
 <div data-role="page"> 
  
@@ -72,6 +76,11 @@
  
 		</div><!-- /ui-body wrapper -->	
 </div><!-- /page --> 
+
+    
+    <!-- ########################################### -->
+    <!--           Application                       -->
+    <!-- ########################################### -->
 
     
 <div data-role="page" id="avansera_app">
@@ -131,69 +140,22 @@
         <div class="ui-block-a"><input type="date" id="avs_startdate" /></div>
         <div class="ui-block-b"><input type="date" id="avs_enddate" /></div>
         
-    </div>
-                                <a href="#app_res" onclick="avs_campaignsubmit()"><img src="img/cyes.png" class="minusimage"></a>
-                                <a href="#" onclick="avs_cancelsubmit()"><img  src="img/cno.png" class="minusimage"></a>
-    
-    <!--
-    <div data-role="fieldcontain">
-        <fieldset data-role="controlgroup" data-type="horizontal"> >
-            <legend></legend>
-            
-            <label for="select-choice-month">Month</label>
-            <select name="select-choice-month" id="select-choice-month">
-                <option>Month</option>
-                <option value="jan">January</option>
-                <!-- etc. -- >
-            </select>
-            
-            <label for="select-choice-day">Day</label>
-            <select name="select-choice-day" id="select-choice-day">
-                <option>Day</option>
-                <option value="1">1</option>
-                <!-- etc. -- >
-            </select>
-            
-            <label for="select-choice-year">Year</label>
-            <select name="select-choice-year" id="select-choice-year">
-                <option>Year</option>
-                <option value="2011">2011</option>
-                <!-- etc. -- >
-            </select>
-            
-        </fieldset>
-    </div>
-    
--->
-		<br />
-    
-		<br />
+    </div><center>
+                                <a href="#app_res" onclick="avs_campaignsubmit()" data-inline="true" data-role="button" class="avs_button">Tallenna</a>
+                                    <!-- <img src="img/cyes.png" class="minusimage"></a> -->
+                                <a href="#" onclick="avs_cancelsubmit()" data-inline="true" data-role="button" class="avs_button">Hylkää</a>
+                                    <!-- <img  src="img/cno.png" class="minusimage">   </a> -->
+    </center>
     
     </div><!-- /ui-body wrapper -->
 </div><!-- /page -->
 
     
-    <a id='avs_info' href="#avs_dialog" data-rel="dialog" data-transition="pop"></a>
-    <a id='avs_info_noproduct' href="#avs_dialog_noproduct" data-rel="dialog" data-transition="pop"></a>
-    
-    
-    <!-- example dialog
-    <div data-role="dialog" id="avs_dialog_test">
-        
-		<div data-role="header" data-theme="d">
-			<h1>Dialog</h1>
-            
-		</div>
-        
-		<div data-role="content" data-theme="c">
-			<h1>Delete page?</h1>
-			<p>This is a regular page, styled as a dialog. To create a dialog, just link to a normal page and include a transition and <code>data-rel="dialog"</code> attribute.</p>
-			<a href="page-dialogs.html" data-role="button" data-rel="back" data-theme="b">Sounds good</a>
-			<a href="page-dialogs.html" data-role="button" data-rel="back" data-theme="c">Cancel</a>
-		</div>
-	</div> -->
     
 
+    <!-- ########################################### -->
+
+    
     
     <!-- /dialog-box starts here -->
     
@@ -215,6 +177,10 @@
         </div><!-- /content -->
     </div><!-- /dialog-box ends here -->
     
+    
+    <!-- ########################################### -->
+    
+    
     <!-- /another dialog-box starts here -->
     
     <div data-role="page" data-rel="dialog" id="avs_dialog_noproduct" data-theme="a" class="avs_center">
@@ -231,6 +197,22 @@
             <br><br>
         </div><!-- /content -->
     </div><!-- /another dialog-box ends here -->
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <!-- DELETE THE REST -->
+    
+    
     
 
     

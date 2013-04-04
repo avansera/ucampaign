@@ -299,8 +299,22 @@ function avs_campaignsubmit(){
     document.getElementsByName('avs_ts')[0].value=date;
     document.getElementById('avsTS').innerHTML=date;
     */
-    var avs_enddate = new Date(document.getElementById('avs_enddate').value).toISOString();
-    var avs_startdate = new Date(document.getElementById('avs_startdate').value).toISOString();
+    var startdate = document.getElementById('avs_startdate').value;
+    if ( startdate == ''){
+        var avs_startdate = new Date().toISOString();
+      }
+      else{
+        var avs_startdate = new Date(startdate).toISOString();
+      }
+
+    var enddate = document.getElementById('avs_enddate').value;
+    if (enddate == ''){
+        var avs_enddate = new Date(1,1,1).toISOString();
+    }
+    else{
+        var avs_enddate = new Date(enddate).toISOString();
+    }
+    
     var furl='http://appavanseracom.avansera.epte.fi/submit.php?ean=' + $('#avs_eancode').text() + '&discount='+ $('#avs_discount').val() + '&price=' +$('#avs_price').val() + '&amount=' + $('#avs_amount').val() + '&start_date=' + avs_startdate + '&end_date=' + avs_enddate + '&shop=1638';
     console.log('postdata prepared ' + furl);
 
