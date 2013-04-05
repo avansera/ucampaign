@@ -24,7 +24,7 @@
 		$(".ui-dialog button").live("click", function() {		
 			$("[data-role='dialog']").dialog("close");		
 		});
-		$(document).on("mobileinit", function(){
+          $(document).on("mobileinit", function(){
 		  $.mobile.defaultPageTransition = "pop";
 		});
 	</script>
@@ -32,20 +32,13 @@
 
     <script type="text/javascript">
             app.initialize();
+        $(document).ready(function () {
+                          loaddefaults();
+                          });
     </script>
-	<style>
-		#footerTabs {
-			background: #FFF -webkit-radial-gradient(circle, #FFF, #dee2e4);
-		}
-		.ui-listview sup {
-			font-size: 0.6em;
-			color: #cc0000;
-		}
-          .ui-page { background: green;}
-	</style>
 
 </head> 
-<body>
+    <body>
     
     
     <!-- ########################################### -->
@@ -67,7 +60,7 @@
             
             <div class="ui-block-a">
                 
-                <input type="number" onblur="validateshopid()" data-inline="true" id="avs_shopid" value=1638 >Shop</a>
+                <input type="number" onblur="validateshopid()" data-inline="true" id="avs_shopid" value=1638 ></a>
 
             </div>
             
@@ -85,6 +78,7 @@
                 </select>
                 
             </div>
+            Shop: <span id="avs_shopname"></span>
             
         </div>
         
@@ -112,15 +106,15 @@
     
 <div data-role="page" id="avansera_app">
         
-        <div data-role="header" data-position="fixed" data-theme="c">
-        <h4><span id= "avs_eancode" class="eancode">000000000000</span></h4>
-	  <a href="#" data-rel="back" data-theme="c">Back</a>
+        <div class="ui-bar-c" data-role="header" data-position="fixed" data-theme="c">
+        <a href="#" data-rel="back" data-inline="true" data-theme="c">Back</a><h2><span id="avs_shopname_header"></span></h2>
+	  
         </div><!-- /header -->
 
     <div data-role="content" class='app_res'>
-        <p>EAN: <span id="avs_meta_ean"></span><br>
+        EAN: <span id="avs_meta_ean"></span><br>
         Tuote: <span id="avs_meta_title"></span><br>
-        Hinta: <span id="avs_meta_price"></span>€ </p>
+        Hinta: <span id="avs_meta_price"></span>€
 
         
             <img src="" id="avs_thumbnail">
@@ -190,6 +184,8 @@
     
     <a id='avs_info' href="#avs_dialog" data-rel="dialog" data-transition="pop"></a>
     <a id='avs_info_noproduct' href="#avs_dialog_noproduct" data-rel="dialog" data-transition="pop"></a>
+    <a id='avs_info_noshop' href="#avs_dialog_noshop" data-rel="dialog" data-transition="pop"></a>
+    <a id='avs_info_storedok' href="#avs_dialog_storedok" data-rel="dialog" data-transition="pop"></a>
     
     
     
@@ -239,9 +235,43 @@
             <br><br>
         </div><!-- /content -->
     </div><!-- /another dialog-box ends here -->
+    
+    
 
+    <!-- /another dialog-box starts here -->
     
+    <div data-role="page" data-rel="dialog" id="avs_dialog_noshop" data-theme="a" class="avs_center">
+        <div data-role="header" >
+            <h1>
+                Huomio!
+            </h1>
+        </div><!-- /header -->
+        <div data-role="content" data-theme="a">
+            <h1>Myymälää ei löytynyt</h1>
+            <p>
+            Myymälää <span id='avs_storeid'></span> ei ole järjestelmässä.
+            </p>
+            <br><br>
+        </div><!-- /content -->
+    </div><!-- /another dialog-box ends here -->
     
+        
+        <!-- /another dialog-box starts here -->
+        
+        <div data-role="page" data-rel="dialog" id="avs_dialog_storedok" data-theme="a" class="avs_center">
+            <div data-role="header" >
+                <h1>
+                    Huomio!
+                </h1>
+            </div><!-- /header -->
+            <div data-role="content" data-theme="a">
+                <h1>Tuotteen hintatiedot tallennettu onnistuneesti</h1>
+                <p>
+
+                </p>
+                <br>
+            </div><!-- /content -->
+        </div><!-- /another dialog-box ends here -->
     
     
     

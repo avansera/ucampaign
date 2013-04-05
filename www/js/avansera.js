@@ -196,6 +196,7 @@ setTimeout(function() {
 // ---------------------------------------------------------------------
 
     function barcode_scan(){
+        avs_getstorename();
       window.plugins.barcodeScanner.scan
       (
        function(result){
@@ -204,7 +205,7 @@ setTimeout(function() {
           else {
             // document.getElementById('avsEA').innerHTML=result.text;
             //document.getElementsByName('avs_ean')[0].value=result.text;
-            $('.eancode').text(result.text);
+            // $('.eancode').text(result.text);
             $('.ean_meta').text(result.text);
        // shopID
        $.mobile.loading( 'show', {
@@ -225,6 +226,7 @@ setTimeout(function() {
               $('#avs_meta_title').html(data.name);
               $('#avs_meta_price').html(data.price);
               localStorage.setItem('avs_meta_price', data.price);
+              localStorage.setItem('avs_eancode', result.text);
               $('#avs_discount').val(0);
               $('#avs_price').val(data.price);
               $('#avs_thumbnail').attr('src', data.thumbnail);
@@ -326,7 +328,7 @@ function avs_campaignsubmit(){
         var avs_enddate = new Date(enddate).toISOString();
     }
     
-    var furl='http://appavanseracom.avansera.epte.fi/submit.php?ean=' + $('#avs_eancode').text() + '&discount='+ $('#avs_discount').val() + '&price=' +$('#avs_price').val() + '&amount=' + $('#avs_amount').val() + '&start_date=' + avs_startdate + '&end_date=' + avs_enddate + '&shop=' +document.getElementById('avs_shopid').value + '&userid=' + $('#userselector').val();
+    var furl='http://appavanseracom.avansera.epte.fi/submit.php?ean=' + localStorage.getItem('avs_eancode') + '&discount='+ $('#avs_discount').val() + '&price=' +$('#avs_price').val() + '&amount=' + $('#avs_amount').val() + '&start_date=' + avs_startdate + '&end_date=' + avs_enddate + '&shop=' +document.getElementById('avs_shopid').value + '&userid=' + $('#userselector').val();
     console.log('postdata prepared ' + furl);
 
     $.ajax({
@@ -352,6 +354,12 @@ function avs_campaignsubmit(){
            }
            else {
            $.mobile.loading( 'hide', "");
+           $('#avs_info_storedok').click();
+           
+           setTimeout(function(){
+                      $('.avs_dialog_storedok').dialog('close');
+                      window.location.hash='';
+                      },2000);
            }
            },
            error : function(jqXHR, textStatus, errorThrown) {
@@ -362,6 +370,19 @@ function avs_campaignsubmit(){
     
 }
 
+// Show dialog for stored ok
+// ---------------------------------------------------------------------
+
+function show_stored_ok_dialog(){
+        $('#avs_info_storedok').click();
+
+        setTimeout(function(){
+           $('.avs_dialog_storedok').dialog('close');
+           window.location.hash='';
+           },3000);
+}
+
+
 // validate store id and "launch" user selector
 // ---------------------------------------------------------------------
 
@@ -369,10 +390,13 @@ function avs_campaignsubmit(){
 // If (document.form1.Enter.value >=1<=10)
 
 function validateshopid(){
-    if (document.getElementById('avs_shopid').value >=1<=4000){
+    if (document.getElementById('avs_shopid').value >=1<=10000){
         $("userselector").focus();
         $("userselector").click();
+        avs_getstorename();
         console.log('validata shopid :' + document.getElementById('avs_shopid').value + ' ' + $('#userselector').val());
+        localStorage.setItem('avs_default_user', $('#userselector').val() );
+        localStorage.setItem('avs_default_shop', $('#avs_shopid').val() );
 
         
     }
@@ -381,6 +405,50 @@ function validateshopid(){
     }
 }
 
+function initdefaults(){
+
+    // User
+    localStorage.setItem('avs_default_user', 31);
+
+    // Shop
+    localStorage.setItem('avs_default_shop', 1638);
+
+    // Shopname
+    localStorage.getItem('avs_default_shopname','Valintatalo Konalantie');
+    
+}
+
+
+function loaddefaults(){
+
+    console.log('loading defaults ' );
+
+    // User
+
+    if (localStorage.getItem('avs_default_user')){
+    
+    $('#userselector').val(localStorage.getItem('avs_default_user')).change();
+    $('#userselector option:selected');
+    
+    // last shop
+
+    $('#avs_shopid').val(localStorage.getItem('avs_default_shop'));
+
+    // shopname
+    
+    $('#avs_shopname').text(localStorage.getItem('avs_default_shopname'));
+    }
+    else {
+        
+        // Write defaults to phone memory storage
+        initdefaults();
+        console.log('defaults written to local storage ' );
+
+        
+    }
+    console.log('defaults loaded ####################### APP READY #####' );
+
+}
 
 
 
@@ -446,6 +514,7 @@ function avs_calculate_percent(){
 
 // Fetch geo location and show it to client (does not work currently)
 // ---------------------------------------------------------------------
+
     function get_location(){
       if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(successFunction, errorFunction);
@@ -457,7 +526,8 @@ function avs_calculate_percent(){
 	}
 }
 
-      
+
+// populate stores from server
 // ---------------------------------------------------------------------
 
 function populate_stores( box ) {
@@ -475,7 +545,7 @@ function populate_stores( box ) {
 	fillList( box.form.slave, list );
 }
 
-
+// get geolocation
 // ---------------------------------------------------------------------
     function get_location(){
       if (navigator.geolocation) {
@@ -506,3 +576,59 @@ function populate_stores( box ) {
        };
       alert("Error: " + errors[error.code]);
 }
+
+
+// set defaults from last selects (user, last shop etc....
+// ---------------------------------------------------------------------
+
+
+
+
+// get store name by store id
+// ---------------------------------------------------------------------
+
+
+function avs_getstorename(){
+       var furl='http://appavanseracom.avansera.epte.fi/get_shopname.php?shop=' + document.getElementById('avs_shopid').value + '&userid=' + $('#userselector').val();
+       $.ajax({
+       url : furl,
+       type : "get",
+       dataType : "json",
+       timeout: 5000,
+       success : function(data, textStatus, jqXHR) {
+       console.log('data loaded ' + JSON.stringify(data));
+       
+       if (data.status!='OK'){
+       $('#avs_info_noshop').click();
+       
+       setTimeout(function(){
+                  $('.avs_dialog_noshop').dialog('close');
+                  window.location.hash='';
+                  document.getElementById('avs_shopid').value=1638;
+                  },3000);
+       }
+
+       else {
+              $('#avs_shopname').text(data.shopname);
+              $('#avs_shopname_header').text(data.shopname);
+              localStorage.setItem('avs_default_shopname', data.shopname);
+              $.mobile.loading( 'hide', "");
+              set_timestamp();
+       
+       }
+       
+       },
+       error : function(jqXHR, textStatus, errorThrown) {
+       console.log('error loading data (SHOPID) :' + errorThrown);
+       $.mobile.loading( 'hide', "");
+       }
+       });
+
+
+}
+
+
+
+
+
+
