@@ -50,6 +50,7 @@ function avs_dicnt_add(){
   value++;
   console.log('discount ad ###KRISU### :' + value);
   $('#avs_discount').val(value);
+  avs_calculate_price();
 }
 
 function avs_dicnt_sub(){
@@ -59,6 +60,7 @@ function avs_dicnt_sub(){
   var n=value.toFixed(2);
   console.log('discount sub ###KRISU### :' + n);
   document.getElementById('avs_discount').value=n;
+  avs_calculate_price();
 }
 
 function avs_price_add(){
@@ -66,6 +68,7 @@ function avs_price_add(){
   var n=value.toFixed(2);
   console.log('price add ###KRISU### :' + n);
   $('#avs_price').val(n);
+  avs_calculate_percent();
 }
 
 function avs_price_sub(){
@@ -75,6 +78,7 @@ function avs_price_sub(){
   var n=value.toFixed(2);
   console.log('avs_price_minus() ###KRISU### :' + n);
   document.getElementById('avs_price').value=n;
+  avs_calculate_percent();
 }
 
 function avs_pcsam_add(){
@@ -209,7 +213,7 @@ setTimeout(function() {
                         theme: 'default',
                         html: ""
                         });
-       var furl='http://appavanseracom.avansera.epte.fi/get_ean.php?ean=' + result.text + '&shop=1638';
+       var furl='http://appavanseracom.avansera.epte.fi/get_ean.php?ean=' + result.text + '&shop=' + document.getElementById('avs_shopid').value + '&userid=' + $('#userselector').val();
        $.ajax({
               url : furl,
               type : "get",
@@ -217,9 +221,14 @@ setTimeout(function() {
               timeout: 5000,
               success : function(data, textStatus, jqXHR) {
               console.log('data loaded ' + JSON.stringify(data));
-              $('.ean_meta').html('EAN: '+result.text +'<br>Tuote: '+ data.name +'<br>Hinta: '+data.price+' €');
+              $('#avs_meta_ean').html(result.text);
+              $('#avs_meta_title').html(data.name);
+              $('#avs_meta_price').html(data.price);
+              localStorage.setItem('avs_meta_price', data.price);
+              $('#avs_discount').val(0);
               $('#avs_price').val(data.price);
-              $('#avs_info_ean').text(result.text);
+              $('#avs_thumbnail').attr('src', data.thumbnail);
+              $('#avs_info_ean').text(data.name + ' (EAN: ' +result.text + ')');
               $('#avs_info_ean_2').text(result.text);
               $.mobile.loading( 'hide', "");
               if (data.status=='NO PRODUCTS'){
@@ -251,12 +260,12 @@ setTimeout(function() {
                resizable: false,
                closeOnEscape: false
                });*/
-              
               $('#avs_info').click();
               set_timestamp();
               }
               else {
               $.mobile.loading( 'hide', "");
+              //$.mobile.navigate( "#avansera_app" );
               window.location.hash='avansera_app';
               set_timestamp();
               
@@ -275,12 +284,14 @@ setTimeout(function() {
     }
 function avs_closedialog(){
     window.location.hash='avansera_app';
+    //$.mobile.navigate( "#avansera_app" );
     $('.avs_dialog').dialog('close');
 }
 
 // Campaign submit
 
 function avs_cancelsubmit(){
+    //$.mobile.navigate( "#" );
     window.location.hash='';
 }
 
@@ -315,7 +326,7 @@ function avs_campaignsubmit(){
         var avs_enddate = new Date(enddate).toISOString();
     }
     
-    var furl='http://appavanseracom.avansera.epte.fi/submit.php?ean=' + $('#avs_eancode').text() + '&discount='+ $('#avs_discount').val() + '&price=' +$('#avs_price').val() + '&amount=' + $('#avs_amount').val() + '&start_date=' + avs_startdate + '&end_date=' + avs_enddate + '&shop=1638';
+    var furl='http://appavanseracom.avansera.epte.fi/submit.php?ean=' + $('#avs_eancode').text() + '&discount='+ $('#avs_discount').val() + '&price=' +$('#avs_price').val() + '&amount=' + $('#avs_amount').val() + '&start_date=' + avs_startdate + '&end_date=' + avs_enddate + '&shop=' +document.getElementById('avs_shopid').value + '&userid=' + $('#userselector').val();
     console.log('postdata prepared ' + furl);
 
     $.ajax({
@@ -351,10 +362,61 @@ function avs_campaignsubmit(){
     
 }
 
+// validate store id and "launch" user selector
+// ---------------------------------------------------------------------
 
 
-// Success Function?
+// If (document.form1.Enter.value >=1<=10)
 
+function validateshopid(){
+    if (document.getElementById('avs_shopid').value >=1<=4000){
+        $("userselector").focus();
+        $("userselector").click();
+        console.log('validata shopid :' + document.getElementById('avs_shopid').value + ' ' + $('#userselector').val());
+
+        
+    }
+    else {
+        $('#avs_shopid').val(1638);
+    }
+}
+
+
+
+
+
+// calculate price after percentage has been entered
+// ---------------------------------------------------------------------
+
+function avs_calculate_price(){
+    var startprice = localStorage.getItem('avs_meta_price');
+    var newprice = (((100-document.getElementById('avs_discount').value)/100) * startprice).toFixed(2);
+    $('#avs_price').val(newprice);
+    
+
+}
+
+
+// $('#avs_meta_ean').html(result.text);
+// $('#avs_meta_title').html(data.name);
+// $('#avs_meta_price').html(data.price);
+
+
+
+// calculate percentage after price has been entered
+// ---------------------------------------------------------------------
+
+
+function avs_calculate_percent(){
+    var startprice = localStorage.getItem('avs_meta_price');
+    var newprice = document.getElementById('avs_price').value;
+    var newpercent = (100-(newprice/startprice)*100).toFixed(0);
+    console.log('calc percent :' + startprice + ' ' + newprice + ' ' + newpercent);
+    $('#avs_discount').val(newpercent);
+
+
+    
+}
 
 
 
