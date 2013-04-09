@@ -110,6 +110,7 @@
 		32CA4F630368D1EE00C91783 /* MicroCampaignManager-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MicroCampaignManager-Prefix.pch"; sourceTree = "<group>"; };
 		400DCB6917042E07006A2F64 /* PickerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PickerView.h; sourceTree = "<group>"; };
 		400DCB6A17042E07006A2F64 /* PickerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PickerView.m; sourceTree = "<group>"; };
+		40321EE1171438EF002519F1 /* PriceUpdater */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = PriceUpdater; path = ../../PriceUpdater; sourceTree = "<group>"; };
 		40581EE61701CFA30009DE02 /* ucampicon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ucampicon.png; sourceTree = "<group>"; };
 		40581EE81701CFAE0009DE02 /* ucampicon_small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ucampicon_small.png; sourceTree = "<group>"; };
 		40DDD4FB1701978400AB3B2B /* CoreVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreVideo.framework; path = System/Library/Frameworks/CoreVideo.framework; sourceTree = SDKROOT; };
@@ -192,6 +193,7 @@
 		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
 			isa = PBXGroup;
 			children = (
+				40321EE1171438EF002519F1 /* PriceUpdater */,
 				40581EE81701CFAE0009DE02 /* ucampicon_small.png */,
 				40581EE61701CFA30009DE02 /* ucampicon.png */,
 				40DDD4FD1701979500AB3B2B /* libiconv.dylib */,
@@ -421,6 +423,7 @@
 				D4A0D8761607E02300AEF8BB /* Default-568h@2x~iphone.png in Resources */,
 				40581EE71701CFA30009DE02 /* ucampicon.png in Resources */,
 				40581EE91701CFAE0009DE02 /* ucampicon_small.png in Resources */,
+				40321EE2171438EF002519F1 /* PriceUpdater in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

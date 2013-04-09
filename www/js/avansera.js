@@ -45,7 +45,7 @@
 // "avs_price"
 // "avs_amount"
 
-function avs_dicnt_add(){
+function avs_dicnt_sub(){
   var value = $('#avs_discount').val();
   value++;
   console.log('discount ad ###KRISU### :' + value);
@@ -53,7 +53,7 @@ function avs_dicnt_add(){
   avs_calculate_price();
 }
 
-function avs_dicnt_sub(){
+function avs_dicnt_add(){
   var value = document.getElementById('avs_discount').value;
   value =value - 1;
   if (value < 0) {value = 0;}
@@ -190,6 +190,16 @@ setTimeout(function() {
 }
 
 
+function avs_load_list(){
+    
+     $('#avs_contentblock').load('http://appavanseracom.avansera.epte.fi/mcm_demo.php');
+    
+    /* document.getElementById('avs_contentiframe').contentDocument.location.reload(true);
+    */
+    console.log('reloading frontpage data...');
+
+}
+
 
 
 // Scan barcode and place results to input box
@@ -197,6 +207,8 @@ setTimeout(function() {
 
     function barcode_scan(){
         avs_getstorename();
+         console.log('storename got, and starting barcode scanner...');
+        
       window.plugins.barcodeScanner.scan
       (
        function(result){
@@ -354,6 +366,7 @@ function avs_campaignsubmit(){
            }
            else {
            $.mobile.loading( 'hide', "");
+           avs_load_list();
            $('#avs_info_storedok').click();
            
            setTimeout(function(){
@@ -374,6 +387,7 @@ function avs_campaignsubmit(){
 // ---------------------------------------------------------------------
 
 function show_stored_ok_dialog(){
+        avs_load_list();
         $('#avs_info_storedok').click();
 
         setTimeout(function(){
@@ -422,6 +436,11 @@ function initdefaults(){
 function loaddefaults(){
 
     console.log('loading defaults ' );
+
+    // next just takes defauts directly (for lähikauppa demo)
+    
+    initdefaults();
+
 
     // User
 

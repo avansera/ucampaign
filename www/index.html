@@ -34,6 +34,9 @@
             app.initialize();
         $(document).ready(function () {
                           loaddefaults();
+                          avs_load_list();
+                         
+                    
                           });
     </script>
 
@@ -45,19 +48,26 @@
     <!--           Frontpage                         -->
     <!-- ########################################### -->
  
-<div data-role="page"> 
+<div data-role="page">
  
 
  
 	<div data-role="content" class='app'>
-        <br><br><br><br><br>
-		<p>Tervetuloa<br>
+        <div id='app_logo_text'>
+        <p>Tervetuloa<br>
         <strong>Suomen Lähikaupan</strong><br>
-        Micro Campaign Manager betaan</p>
-        <br><br>
-        
-        <div class="ui-grid-a">
+        Micro Campaign Manager<br>
+        betaan</p>
+            </div>
+    
+        <div id='avs_contentblock'>
             
+            <!-- <iframe id="avs_contentiframe" src="http://appavanseracom.avansera.epte.fi/mcm_demo.php" ></iframe>
+             -->
+        </div>
+            
+         <div class="ui-grid-a" style="display:none;">
+           
             <div class="ui-block-a">
                 
                 <input type="number" onblur="validateshopid()" data-inline="true" id="avs_shopid" value=1638 ></a>
@@ -78,11 +88,10 @@
                 </select>
                 
             </div>
+         </div>
             Shop: <span id="avs_shopname"></span>
             
-        </div>
         
-            <br><br>
         <center>
                 <a href="#" onclick="barcode_scan()" data-ajax="false" data-inline="true" data-role="button">Lue Viivakoodi</a>
 
@@ -95,8 +104,10 @@
 	</div> -->
      <!-- /footer -->
  
-		</div><!-- /ui-body wrapper -->	
-</div><!-- /page --> 
+    <center><div class="avs_copyright">Copyrigh © 2012-13 Avansera Oy. All Rights Reserved.</div></center>
+		</div><!-- /ui-body wrapper -->
+
+</div><!-- /page -->
 
     
     <!-- ########################################### -->
@@ -173,6 +184,7 @@
                                     <!-- <img  src="img/cno.png" class="minusimage">   </a> -->
     </center>
     
+    <center><div class="avs_copyright">Copyrigh © 2012-13 Avansera Oy. All Rights Reserved.</div></center>
     </div><!-- /ui-body wrapper -->
 </div><!-- /page -->
 
