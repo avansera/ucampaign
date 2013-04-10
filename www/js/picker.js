@@ -1,156 +1,50 @@
-//
-//  CordovaPicker.js
-//
-// Created by Olivier Louvignes on 11/27/2011.
-// Added Cordova support on 09/04/2012.
-//
-// Copyright 2011 Olivier Louvignes. All rights reserved.
-// MIT Licensed
+var plugin = {
 
-window.Cordova = window.cordova;
+    createBasic: function() {
+        var slots = [
+            {name: 'foo', value: 'baz', data: [
+                {value: 'foo', text: 'Displayed Foo'},
+                {value: 'bar', text: 'Displayed Bar'},
+                {value: 'baz', text: 'Displayed Baz'}
+            ]}
+        ];
+        window.plugins.pickerView.create(slots, {title: 'Title'}, function(selectedValues, buttonIndex) {
+            var args = Array.prototype.slice.call(arguments, 0);
+            console.log("actionSheet.createComplex:" + JSON.stringify(args));
+        });
+    },
 
-if(Ext && typeof(Ext.map) == "undefined") {
-	var nativeMap = Array.prototype.map;
-	Ext.map = function(obj, iterator, context) {
-		var results = [];
-		if (obj == null) return results;
-		if (nativeMap && obj.map === nativeMap) return obj.map(iterator, context);
-		each(obj, function(value, index, list) {
-			results[results.length] = iterator.call(context, value, index, list);
-		});
-		if (obj.length === +obj.length) results.length = obj.length;
-		return results;
-	};
-}
+    createComplex: function() {
+        var slots = [
+            {name : 'limit_speed', title: 'Speed', data : [
+                {text: '50 KB/s', value: 50},
+                {text: '100 KB/s', value: 100},
+                {text: '200 KB/s', value: 200},
+                {text: '300 KB/s', value: 300}
+            ]},
+            {name : 'road_type', title: 'Road', data : [
+                {text: 'Highway', value: 50},
+                {text: 'Town', value: 100},
+                {text: 'City', value: 200},
+                {text: 'Depart', value: 300}
+            ]}
+        ];
 
-Ext.define('Ext.ux.CordovaPicker', {
+        var options = {
+            style: 'black-opaque',
+            doneButtonLabel: 'OK',
+            cancelButtonLabel: 'Annuler',
+            sourceRect: [100.0, 100.0, 20.0, 20.0], // iPad
+            arrowDirection: 'up' // iPad
+        };
 
-	override: 'Ext.picker.Picker',
+        window.plugins.pickerView.create(slots, options, function(selectedValues, buttonIndex) {
+            var args = Array.prototype.slice.call(arguments, 0);
+        });
 
-	pluginItems: [],
-	pluginConfig: {},
-	pluginItemsConfig: [],
+        setTimeout(function() {
+            window.plugins.pickerView.setValue({limit_speed: 100, road_type: 300}, {animated: true});
+        }, 1000);
+    }
 
-	constructor: function(config) {
-		config = config || {};
-
-		// Local alias
-		this.cordovaPlugin = Ext.os.is.iOS && window.plugins && window.plugins.pickerView ? window.plugins.pickerView : false;
-
-		if(this.cordovaPlugin) {
-			// Initialize on create&reset
-			this.pluginItems = [];
-			this.pluginConfig = {};
-			this.pluginItemsConfig = [];
-			this.pluginWasHidden = !!config.hidden;
-			this.pluginIsHidden = true;
-
-			config.useTitles = false;
-			config.hidden = true;
-
-			if(config.value) {
-				this.pluginValue = config.value;
-				delete config.value;
-			}
-		}
-
-		return this.callParent(arguments);
-	},
-
-	// Define default value
-	setValue: function(values) {
-		//console.log(Ext.getDisplayName(arguments.callee), [this, arguments]);
-		var me = this;
-
-		if(this.cordovaPlugin) {
-			for (var key in me.pluginItems) {
-				var slot = me.pluginItems[key];
-				if(values.hasOwnProperty(slot.name)) slot.value = values[slot.name];
-			}
-		}
-
-		this.callParent(arguments);
-	},
-
-	// ST only
-	add: function(newItems) {
-		//console.log(Ext.getDisplayName(arguments.callee), [this, arguments]);
-		this.callParent(arguments);
-
-		if(this.cordovaPlugin) {
-			var me = this;
-			newItems = Ext.Array.from(newItems);
-
-			// Only prepare objects here
-			Ext.Array.each(newItems, function(item, key) {
-				if(item.hasOwnProperty('data') && item.data.length) {
-					// Push item to plugin
-					newItem = {
-						name: item.name,
-						value: item.value,
-						title: item.label,
-						data: item.data
-					};
-					// Push item to plugin
-					me.pluginItems.push(newItem);
-				} else if(item.hasOwnProperty('store')) {
-					newItem = {
-						name: item.name,
-						value: item.value,
-						title: item.label,
-						data: Ext.map(item.store.data.items, function(value, key) { return value.data; })
-					};
-					// Push item to plugin
-					me.pluginItems.push(newItem);
-				}
-			});
-
-			if(this.pluginValue) {
-				this.setValue(this.pluginValue);
-			}
-
-			if(!this.pluginWasHidden && me.pluginItems.length) {
-				this.show();
-			}
-
-		}
-
-	},
-
-	show: function() {
-		//console.log(Ext.getDisplayName(arguments.callee), [this, arguments]);
-		var me = this;
-
-		if(this.cordovaPlugin) {
-			if(!this.pluginIsHidden) return false;
-			this.pluginIsHidden = false;
-			// Execute actual exec here
-			// @info ST does not support title
-			var callback = function(selectedValues, buttonIndex) {
-				this.pluginIsHidden = true;
-				if(buttonIndex !== 0) {
-					if(me instanceof Ext.picker.Date) {
-						selectedValues = me.getValue();
-					}
-					me.fireEvent('change', me, selectedValues);
-					me.hide();
-				}
-			};
-
-			return window.plugins.pickerView.create(null, me.pluginItems, callback, me.pluginConfig);
-		} else {
-			return this.callParent(arguments);
-		}
-	},
-
-	'hide': function() {
-		if(this.cordovaPlugin) {
-			this.pluginIsHidden = true;
-			return false;
-		} else {
-			return this.callParent(arguments);
-		}
-	}
-
-});
-
+};

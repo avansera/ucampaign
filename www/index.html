@@ -14,10 +14,16 @@
     <script type="text/javascript" src="js/index.js"></script>
     <script type="text/javascript" src="js/avansera.js"></script>
     <script type="text/javascript" src="js/barcodescanner.js"></script>
-    <script type="text/javascript" src="js/picker.js"></script>
-<!--    <script type="text/javascript" src="js/jquery-1.9.1.min.js"></script> -->
+    <script type="text/javascript" src="/js/PickerView.js"></script>
+    <script type="text/javascript" src="/js/picker.js"></script>
+        
+        
+        <!--    <script type="text/javascript" src="js/jquery-1.9.1.min.js"></script> -->
 <!--    <script type="text/javascript" src="js/jquery.mobile-1.3.0.min.js"></script> -->
     <script type="text/javascript" src="js/jquery-1.7.1.min.js"></script>
+        
+        <link href="css/mobiscroll.custom-2.5.0.min.css" rel="stylesheet" type="text/css" />
+        <script src="js/mobiscroll.custom-2.5.0.min.js" type="text/javascript"></script>
 
         <script>
 		// all dialog buttons should close their parent dialog
@@ -34,8 +40,6 @@
             app.initialize();
         $(document).ready(function () {
                           loaddefaults();
-                          avs_load_list();
-                         
                     
                           });
     </script>
@@ -66,17 +70,22 @@
              -->
         </div>
             
-         <div class="ui-grid-a" style="display:none;">
+         <!-- <div class="ui-grid-a" > <!--style="display:none;"> -->
            
-            <div class="ui-block-a">
+            <!--<div class="ui-block-a"> -->
                 
-                <input type="number" onblur="validateshopid()" data-inline="true" id="avs_shopid" value=1638 ></a>
+                <!--<input type="number" onblur="validateshopid()" data-inline="true" id="avs_shopid" value=1638 ></a>-->
+                    <div id="shopselectdiv">
+                    <select name="shopselector" data-inline="true" id="shopselector" class="avs_selector" onblur="validateshopid()">
+                        <option value="1638">Choose Shop</option>
+                    </select>
+                        </div>
 
-            </div>
+            <!-- </div>
             
             <div class="ui-block-b">
-                
-                <select name="userselector" data-inline="true" id="userselector" onblur="validateshopid()">
+                -->
+                <select name="userselector" data-inline="true" id="userselector" class="avs_selector" onblur="validateshopid()">
                     <option value="32">Christer</option>
                     <option value="95">Cormac</option>
                     <option value="19">Marko</option>
@@ -87,13 +96,22 @@
                     <option value="31">Server Account</option>
                 </select>
                 
-            </div>
-         </div>
-            Shop: <span id="avs_shopname"></span>
+        <!--    </div>
+         </div>-->
+            <span id="avs_shopname" style="display:none;"></span>
             
         
         <center>
                 <a href="#" onclick="barcode_scan()" data-ajax="false" data-inline="true" data-role="button">Lue Viivakoodi</a>
+            
+            <a href="#" onclick="hola()" data-ajax="false" data-inline="true" data-role="button">käynnistä</a>
+            
+            <div id="demo_default" class="demos">
+                <label for="test_default">Click here to try</label>
+                <input type="text" name="test_default" id="test_default" />
+            </div>
+            <div data-role="fieldcontain" class="demos fieldcontain" id="demo_tree_list">
+                <label for="test_tree_list_dummy">Click here to try</label><ul id="test_tree_list"><li>America<ul><li>USA<ul><li>Washington</li><li>Florida</li><li>Los Angeles</li><li>San Francisco</li></ul></li><li>Canada<ul><li>Vancouver</li><li>Winnipeg</li><li>Calgary</li></ul></li><li>Brazil<ul><li>Rio de Janeiro</li><li>Sao Paolo</li></ul></li></ul></li><li>Europe<ul><li>France<ul><li>Paris</li><li>Toulouse</li><li>Marseille</li><li>Lyon</li></ul></li><li>Germany<ul><li>Berlin</li><li>Frankfurt</li><li>Hamburg</li></ul></li><li>Spain<ul><li>Madrid</li><li>Barcelona</li><li>Saragosa</li></ul></li><li>Italy<ul><li>Rome</li><li>Palermo</li><li>Genoa</li><li>Torino</li></ul></li></ul></li><li>Asia<ul><li>China<ul><li>Shanghai</li><li>Hong Kong</li><li>Beijing</li></ul></li><li>Japan<ul><li>Tokyo</li><li>Kagoshima</li><li>Osaka</li></ul></li></ul></li></ul>  </div>
 
         
         </center>

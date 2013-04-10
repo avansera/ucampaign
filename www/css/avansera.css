@@ -46,9 +46,14 @@ iframe{
 
 }
 
+#shopselectdiv{
+    width:100px;
+    display: inline-block;
+}
+
 #avs_contentblock{
     width:278px;
-    height:218px;
+    height:168px; /* was 218 */
     overflow: auto;
     background-color:#FFFFFF;
     color: #808080;

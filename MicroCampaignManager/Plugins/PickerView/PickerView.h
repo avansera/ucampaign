@@ -26,3 +26,4 @@
 - (void)setValue:(CDVInvokedUrlCommand*)command;
 
 @end
+
