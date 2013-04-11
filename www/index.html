@@ -14,8 +14,9 @@
     <script type="text/javascript" src="js/index.js"></script>
     <script type="text/javascript" src="js/avansera.js"></script>
     <script type="text/javascript" src="js/barcodescanner.js"></script>
-    <script type="text/javascript" src="/js/PickerView.js"></script>
-    <script type="text/javascript" src="/js/picker.js"></script>
+    <script type="text/javascript" src="js/PickerView.js"></script>
+    <script type="text/javascript" src="js/picker.js"></script>
+    <script type="text/javascript" src="js/fastclick.js"></script>
         
         
         <!--    <script type="text/javascript" src="js/jquery-1.9.1.min.js"></script> -->
@@ -36,7 +37,14 @@
 	</script>
 	<script src="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.js"></script>
 
-    <script type="text/javascript">
+<script type="text/javascript">
+    window.addEventListener('load', function() {
+                            new FastClick(document.body);
+                            }, false);
+</script>
+        
+        
+        <script type="text/javascript">
             app.initialize();
         $(document).ready(function () {
                           loaddefaults();
@@ -44,9 +52,9 @@
                           });
     </script>
 
-</head> 
-    <body>
-    
+        
+</head>
+   <body>
     
     <!-- ########################################### -->
     <!--           Frontpage                         -->
@@ -76,7 +84,7 @@
                 
                 <!--<input type="number" onblur="validateshopid()" data-inline="true" id="avs_shopid" value=1638 ></a>-->
                     <div id="shopselectdiv">
-                    <select name="shopselector" data-inline="true" id="shopselector" class="avs_selector" onblur="validateshopid()">
+                    <select name="shopselector" data-inline="true" id="shopselector" class="avs_selector" onfocus="avs_clear_geotimer()" onblur="avs_set_geotimer()">
                         <option value="1638">Choose Shop</option>
                     </select>
                         </div>
@@ -105,6 +113,9 @@
                 <a href="#" onclick="barcode_scan()" data-ajax="false" data-inline="true" data-role="button">Lue Viivakoodi</a>
             
             <a href="#" onclick="hola()" data-ajax="false" data-inline="true" data-role="button">käynnistä</a>
+            
+            <a href="#" onclick="picker_select()" data-ajax="false" data-inline="true" data-role="button">pickerView!!!</a>
+
             
             <div id="demo_default" class="demos">
                 <label for="test_default">Click here to try</label>

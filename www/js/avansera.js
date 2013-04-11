@@ -1,4 +1,5 @@
 /*jslint browser: true, bitwise: true,continue: true, debug: true, eqeq: true, es5: true, evil: true, newcap: true, plusplus: true, sloppy: true, stupid: true, sub: true, vars: false, white: true maxerr: 1000 */
+/*global $, jQuery, alert */
 
 /** ********************************************************************
  * Avansera Bar Code Scanner, AppGyver Project, Phone gap project
@@ -99,6 +100,8 @@ function avs_pcsam_sub(){
 }
 
 
+
+
 // test javascript picker selector
 // ---------------------------------------------------------------------
 
@@ -131,7 +134,7 @@ function picker_select(){
   
   
   // Basic with title & defaultValue selected
-  var slots = [
+  /* var slots = [
                {name: 'foo', value: 'baz', data: [
                                                   {value: 'foo', text: 'Displayed Foo'},
                                                   {value: 'bar', text: 'Displayed Bar'},
@@ -140,10 +143,10 @@ function picker_select(){
                ];
   
   
-  window.plugins.pickerView.create('Title', slots, function(selectedValues, buttonIndex) {
+   window.plugins.pickerView.create('Title', slots, function(selectedValues, buttonIndex) {
                                    console.warn('create(), arguments=' + Array.prototype.slice.call(arguments).join(', '));
                                    });
-  alert('whaaat!!');
+  alert('whaaat!!'); */
   // Complex example with 2 slots
   var slots = [
                {name : 'limit_speed', title: 'Speed', width: 140, data : [
@@ -208,17 +211,18 @@ function avs_load_list(){
 
 function barcode_scan(){
   
-  //avs_getstorename();
+  avs_clear_geotimer();
+
   // console.log('storename got, and starting barcode scanner...');
   //
   // dont read twice storename, slows down already slow program
   
-  window.plugins.barcodeScanner.scan
-  (
-   function(result){
-   if (result.cancelled)
-   $('.ean_meta').text(result.text);
-   else {
+  window.plugins.barcodeScanner.scan(function(result){
+                                     if (result.cancelled){
+                                       $('.ean_meta').text(result.text);
+                                     }
+      
+                                     else {
    // document.getElementById('avsEA').innerHTML=result.text;
    //document.getElementsByName('avs_ean')[0].value=result.text;
    // $('.eancode').text(result.text);
@@ -278,12 +282,14 @@ function barcode_scan(){
            resizable: false,
            closeOnEscape: false
            });*/
+          avs_clear_geotimer();
           $('#avs_info').click();
           set_timestamp();
           }
           else {
           $.mobile.loading( 'hide', "");
           //$.mobile.navigate( "#avansera_app" );
+          avs_clear_geotimer();
           window.location.hash='avansera_app';
           set_timestamp();
           
@@ -336,18 +342,18 @@ function avs_campaignsubmit(){
    */
   var startdate = document.getElementById('avs_startdate').value;
   if ( startdate == ''){
-    var avs_startdate = new Date().toISOString();
+    avs_startdate = new Date().toISOString();
   }
   else{
-    var avs_startdate = new Date(startdate).toISOString();
+    avs_startdate = new Date(startdate).toISOString();
   }
   
   var enddate = document.getElementById('avs_enddate').value;
   if (enddate == ''){
-    var avs_enddate = new Date(1,1,1).toISOString();
+    avs_enddate = new Date(1,1,1).toISOString();
   }
   else{
-    var avs_enddate = new Date(enddate).toISOString();
+    avs_enddate = new Date(enddate).toISOString();
   }
   
   var furl='http://appavanseracom.avansera.epte.fi/submit.php?ean=' + localStorage.getItem('avs_eancode') + '&discount='+ $('#avs_discount').val() + '&price=' +$('#avs_price').val() + '&amount=' + $('#avs_amount').val() + '&start_date=' + avs_startdate + '&end_date=' + avs_enddate + '&shop=' +document.getElementById('shopselector').value + '&userid=' + $('#userselector').val();
@@ -377,6 +383,7 @@ function avs_campaignsubmit(){
          else {
          $.mobile.loading( 'hide', "");
          avs_load_list();
+         avs_geotimer();
          $('#avs_info_storedok').click();
          
          setTimeout(function(){
@@ -427,6 +434,8 @@ function validateshopid(){
   }
   else {
     $('#shopselector').val(1638);
+    avs_getstorename();
+
   }
 }
 
@@ -445,16 +454,24 @@ function initdefaults(){
   // Shopname
   localStorage.setItem('avs_default_shopname','Valintatalo Konalantie');
   
+  // Set default coords to Kamppi 60.169583°N 24.933444°E.
+  
+  localStorage.setItem('latitude', '60.169583');
+  
+  localStorage.setItem('longitude', '24.933444');
+
 }
 
 
 function loaddefaults(){
   
-  console.log('loading defaults ' );
+  // alert('loading defaults ..' );
   
-  // next just takes defauts directly (for lähikauppa demo)
+  // 
   
   avs_load_list();
+  
+  localStorage.setItem('geotimer', '0');
   
   // User
   
@@ -479,11 +496,11 @@ function loaddefaults(){
     
     // Write defaults to phone memory storage
     initdefaults();
-    console.log('defaults written to local storage ' );
+    alert('defaults written to local storage ' );
     
     
   }
-  console.log('defaults loaded ####################### APP READY #####' );
+  // alert('defaults loaded ####################### APP READY #####' );
   
   get_geolocation();
   
@@ -553,15 +570,47 @@ function mod_price(){
 }
 
 
+// update new geolocation every 30 seconds
+// ---------------------------------------------------------------------
+
+
+
+
+function avs_set_geotimer(avs_seconds){
+  if (arguments[0] == undefined){
+    avs_seconds = 30;
+  }
+  else {
+    avs_seconds=arguments[0];
+  }
+
+  if (localStorage.getItem('geotimer')!=1){
+    localStorage.setItem('geotimer', '1');
+    window.geolocation_timer = setInterval(function(){get_geolocation()},avs_seconds*1000);
+
+  }
+  console.log('geotimer timer id.....   ' + window.geolocation_timer + ' and seconds' + avs_seconds*1000);
+  
+}
+
+function avs_clear_geotimer(){
+  console.log('clear geotimer.....   ');
+  clearInterval(window.geolocation_timer);
+  localStorage.setItem('geotimer', '0');
+  
+}
+
+
+
 
 // Fetch geo location and show it to client (does actually work now)
 // ---------------------------------------------------------------------
 
 function get_geolocation(){
-  console.log('fetch geolocation');
+  console.log('fetch geolocation.....   ');
   
   if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(geosuccess, geoerror);
+    navigator.geolocation.getCurrentPosition(geosuccess, geoerror, {maximumAge:600000});
   }
 }
 
@@ -569,14 +618,51 @@ function geosuccess(position){
   var lati = position.coords.latitude;
   var lngt = position.coords.longitude;
   
+  // init timeout to repeat every 30 sec..
+  
+  avs_set_geotimer();
+  
+  // alert ('coords got ' + lati + lngt);
+
+  
   // Verify coordinates that they are between absolute 0 and 90 for latitude and 0 and 180 for longitude
   
   if (Math.abs(lati) >= 0 && Math.abs(lati) <= 90 && Math.abs(lngt) >=0 && Math.abs(lngt) <= 180){
     console.log('got coordinates:' + lati + ' and ' + lngt);
+    localStorage.setItem('latitude', lati);
+    localStorage.setItem('longitude', lngt);
     get_shops(lati, lngt);
+    
   }
   else {
+
     alert ('coords failed' + lati + lngt);
+    
+    switch(error.code)
+    {
+      case error.PERMISSION_DENIED:
+        alert('This application requires user to accept geolocation!');
+        avs_clear_geotimer();
+        break;
+        
+      case error.POSITION_UNAVAILABLE:
+        alert('Could not detect current position!');
+        break;
+        
+      case error.TIMEOUT:
+        
+        // Fallback to previous stored coords
+        lati=localStorage.getItem('latitude');
+        lngt=localStorage.getItem('longitude');
+        get_shops(lati, lngt);
+        
+        //alert("Retrieving position timed out");
+        break;
+        
+      default: alert('unknown error');
+        break;
+    }
+    
   }
 }
 
@@ -590,7 +676,7 @@ function geoerror(){
 
 function avsroundup(avsnr){
   
-  var avsnr, avsnrr, avsnrhalf;
+  var avsnrr, avshalf;
   avsnr=avsnr+25;
   avsnrr= Math.round(avsnr/100)*100;
   avshalf = Math.round((avsnr-avsnrr+25)/50)*50;
