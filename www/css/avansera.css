@@ -3,20 +3,22 @@
     -webkit-tap-highlight-color: rgba(0,0,0,0); /* make transparent link selection, adjust last value opacity 0 to 1.0 */
 }
 
+/* gradientit määritellään toisaalla...*/
+
 body {
     -webkit-touch-callout: none;                /* prevent callout to copy image, etc when tap to hold */
     -webkit-text-size-adjust: none;             /* prevent webkit from resizing text to fit */
     -webkit-user-select: none;                  /* prevent copy paste, to allow, change 'none' to 'text' */
     background-color:#E4E4E4;
-    background-image:linear-gradient(top, #00838F 0%, #00838F 51%);
-    background-image:-webkit-linear-gradient(top, #00838F 0%, #00838F 51%);
-    background-image:-ms-linear-gradient(top, #00838F 0%, #00838F 51%);
+    background-image:linear-gradient(top, #838383 0%, #aeaeae 51%);
+    background-image:-webkit-linear-gradient(top, #838383 0%, #aeaeae 51%);
+    background-image:-ms-linear-gradient(top, #838383 0%, #aeaeae 51%);
     background-image:-webkit-gradient(
         linear,
         left top,
         left bottom,
-        color-stop(0, #00838F),
-        color-stop(0.51, #00838F)
+        color-stop(0, #838383),
+        color-stop(0.51, #aeaeae)
     );
     background-attachment:fixed;
     font-family:'HelveticaNeue-Light', 'HelveticaNeue', Helvetica, Arial, sans-serif;
@@ -130,16 +132,16 @@ iframe{
 }
 
 .ui-page, .ui-mobile-viewport {
-	background-color:#00838F;
-    background-image:linear-gradient(top, #50B3BF 0%, #00838F 51%);
-    background-image:-webkit-linear-gradient(top, #50B3BF 0%, #00838F 51%);
-    background-image:-ms-linear-gradient(top, #50B3BF 0%, #00838F 51%);
+	background-color:#aeaeae;
+    background-image:linear-gradient(top, #efefef 0%, #aeaeae 51%);
+    background-image:-webkit-linear-gradient(top, #efefef 0%, #aeaeae 51%);
+    background-image:-ms-linear-gradient(top, #efefef 0%, #aeaeae 51%);
     background-image:-webkit-gradient(
         linear,
         left top,
         left bottom,
-        color-stop(0, #50B3BF),
-        color-stop(0.51, #00838F)
+        color-stop(0, #efefef),
+        color-stop(0.51, #aeaeae)
     );
 }
 
@@ -271,13 +273,13 @@ img.minusimage {
 
 /* Portrait layout (default) */
 .app {
-    background:url(../img/valtsu.png) no-repeat right top; /* 170px x 200px */
-    background-position:  0px 10px;
+    background:url(../img/avanseralogo.png) no-repeat right top; /* 170px x 200px */
+    background-position:  16px 10px;
     background-size: 90px 90px;
     font-family:'HelveticaNeue-Light', 'HelveticaNeue', Helvetica, Arial, sans-serif;
     font-size: 16px;
-    color: #E4E4E4;
-    text-shadow: 2px 2px #307A88;
+    color: #FFFFFF;
+    text-shadow: 1px 1px #808080;
     
 }
 

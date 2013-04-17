@@ -7,6 +7,10 @@
 // Copyright 2011-2012 Olivier Louvignes. All rights reserved.
 // MIT Licensed
 
+
+// Few modifications 2013 (c) Christer Nyberg, Avansera Ltd. All rights reserverd
+
+
 #import "PickerView.h"
 #import <Cordova/CDVDebug.h>
 
@@ -70,7 +74,7 @@
 	self.items = [options objectForKey:@"items"];
 
     // Initialize PickerView
-    self.pickerView = [[UIPickerView alloc] initWithFrame:CGRectMake(0, 40.0f, 320.0f, 162.0f)];
+    self.pickerView = [[UIPickerView alloc] initWithFrame:CGRectMake(0, 40.0f, 320.0f, 240.0f)];
 	self.pickerView.showsSelectionIndicator = YES;
 	self.pickerView.delegate = self;
 
@@ -98,7 +102,7 @@
 	// Style actionSheet, defaults to UIActionSheetStyleDefault
 	if([style isEqualToString:@"black-opaque"]) self.actionSheet.actionSheetStyle = UIActionSheetStyleBlackOpaque;
 	else if([style isEqualToString:@"black-translucent"]) self.actionSheet.actionSheetStyle = UIActionSheetStyleBlackTranslucent;
-	else self.actionSheet.actionSheetStyle = UIActionSheetStyleDefault;
+	else self.actionSheet.actionSheetStyle = UIActionSheetStyleAutomatic;
 
 	// Append pickerView
 	[self.actionSheet addSubview:self.pickerView];
@@ -118,7 +122,7 @@
 	doneButton.momentary = YES;
 	doneButton.frame = CGRectMake(265.0f, 7.0f, 50.0f, 30.0f);
 	doneButton.segmentedControlStyle = UISegmentedControlStyleBar;
-	doneButton.tintColor = [UIColor colorWithRed:51.0f/255.0f green:102.0f/255.0f blue:153.0f/255.0f alpha:1.0f];
+	doneButton.tintColor = [UIColor colorWithRed:36.0f/255.0f green:96.0f/255.0f blue:224.0f/255.0f alpha:1.0f];
 	[doneButton addTarget:self action:@selector(segmentedControl:didDismissWithDoneButton:) forControlEvents:UIControlEventValueChanged];
 	// Append done button
 	[self.actionSheet addSubview:doneButton];
@@ -132,9 +136,9 @@
 	float actionSheetHeight;
 	int systemMajorVersion = [[[[UIDevice currentDevice].systemVersion componentsSeparatedByString:@"."] objectAtIndex:0] integerValue];
 	if(systemMajorVersion >= 5) {
-		actionSheetHeight = 360.0f;
+		actionSheetHeight = 468.0f; // was 360.0f gonna be 960/2 = 480
 	} else {
-		actionSheetHeight = 472.0f;
+		actionSheetHeight = 548.0f; // was 472.0f gonna be 1136/2 = 568
 	}
 	[self.actionSheet setBounds:CGRectMake(0, 0, 320.0f, actionSheetHeight)];
 
